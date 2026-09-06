@@ -1,281 +1,315 @@
-import './App.css';
+import { useEffect } from "react";
+import "./App.css";
 
-const featuredCategories = [
-  {
-    name: 'בישום',
-    description: 'מבחר בשמים אהובים במחירים מצוינים',
-    image: 'https://merkazhazol.com/store/perfumes.jpeg',
-  },
-  {
-    name: 'איפור',
-    description: 'מוצרי איפור במגוון גוונים וסגנונות',
-    image: 'https://merkazhazol.com/store/makeup.jpeg',
-  },
-  {
-    name: 'חומרי ניקוי',
-    description: 'מגוון חומרי ניקוי לבית נקי ורענן',
-    image: 'https://merkazhazol.com/store/cleaning-products.jpeg',
-  },
-  {
-    name: 'טיפוח וקוסמטיקה',
-    description: 'מגוון מוצרי טיפוח וקוסמטיקה לפנים ולגוף',
-    image: 'https://merkazhazol.com/store/face-care.jpeg',
-  },
-  {
-    name: 'מוצרי שיער',
-    description: 'מוצרים לטיפוח, חיזוק ושיקום השיער',
-    image: 'https://merkazhazol.com/store/hair-products.jpeg',
-  },
-  {
-    name: 'היגיינה',
-    description: 'מגוון מוצרי היגיינה לנשים ולמבוגרים',
-    image: 'https://merkazhazol.com/store/hygiene.jpeg',
-  },
+const products = [
+  { image: "/store/perfumes.jpeg", title: "בישום", note: "מבחר בשמים אהובים במחירים מצוינים" },
+  { image: "/store/makeup.jpeg", title: "איפור", note: "מוצרי איפור במגוון גוונים וסגנונות" },
+  { image: "/store/cleaning-products.jpeg", title: "חומרי ניקוי", note: "מגוון חומרי ניקוי לבית נקי ורענן" },
+  { image: "/store/face-care.jpeg", title: "טיפוח וקוסמטיקה", note: "מגוון מוצרי טיפוח וקוסמטיקה לפנים ולגוף" },
+  { image: "/store/hair-products.jpeg", title: "מוצרי שיער", note: "מוצרים לטיפוח, חיזוק ושיקום השיער" },
+  { image: "/store/hygiene.jpeg", title: "היגיינה", note: "מגוון מוצרי היגיינה לנשים ולמבוגרים" },
+  { image: "/store/cleaning-display.jpg", title: "ניקיון ותחזוקה", note: "פתרונות יעילים לניקיון ולתחזוקת הבית" },
+  { image: "/store/hair-accessories.jpeg", title: "אביזרי שיער", note: "כל האביזרים לשיער מעוצב" },
+  { image: "/store/body-care.jpeg", title: "טיפוח הגוף", note: "קרמים, דאודורנטים ומוצרי גילוח לשגרת טיפוח" },
+  { image: "/store/disposables.jpeg", title: "חד-פעמי", note: "מגוון מוצרים חד-פעמיים" },
+  { image: "/store/flipflops.jpg", title: "כפכפי Havaianas", note: "מגוון דגמי Havaianas לנשים ולגברים" },
+  { image: "/store/soaps.jpeg", title: "סבונים", note: "מוצרי רחצה לניקיון ולרעננות" },
+  { image: "/store/hair-colors.jpeg", title: "צבעים לשיער", note: "מבחר גוונים ומותגים" },
+  { image: "/store/brooms-mops.jpeg", title: "מטאטאים ומגבים", note: "מטאטאים, מגבים ואביזרי ניקיון לבית" },
+  { image: "/store/nail-polish.jpeg", title: "לקים", note: "הגוון המושלם לכל סגנון" },
+  { image: "/store/air-fresheners.jpeg", title: "מטהרי אוויר", note: "רעננות הבית והגנה מפני יתושים" },
+  { image: "/store/underwear-hosiery.jpeg", title: "לבנים וגרביים", note: "לבנים, גרביים וגרביונים לנשים ולגברים" },
+  { image: "/store/oral-care.jpeg", title: "היגיינת הפה", note: "שמירה על היגיינת הפה" },
+  { image: "/store/slippers-hats.jpeg", title: "נעלי בית וכובעים", note: "פריטים נוחים ושימושיים לכל עונה" },
+  { image: "/store/gloves-wipes-bags.jpeg", title: "כפפות, מגבונים ושקיות", note: "אביזרים לניקיון ולסדר" },
+  { image: "/store/shower-caps-nails.jpeg", title: "אביזרי רחצה וציפורניים", note: "אביזרים להשלמת שגרת הטיפוח" },
 ];
 
-const moreCategories = [
-  ['ניקיון ותחזוקה', 'פתרונות יעילים לניקיון ולתחזוקת הבית', 'https://merkazhazol.com/store/cleaning-display.jpg'],
-  ['אביזרי שיער', 'כל האביזרים לשיער מעוצב', 'https://merkazhazol.com/store/hair-accessories.jpeg'],
-  ['טיפוח הגוף', 'קרמים, דאודורנטים ומוצרי גילוח לשגרת טיפוח', 'https://merkazhazol.com/store/body-care.jpeg'],
-  ['חד-פעמי', 'מגוון מוצרים חד-פעמיים', 'https://merkazhazol.com/store/disposables.jpeg'],
-  ['כפכפי Havaianas', 'מגוון דגמי Havaianas לנשים ולגברים', 'https://merkazhazol.com/store/flipflops.jpg'],
-  ['סבונים', 'מוצרי רחצה לניקיון ולרעננות', 'https://merkazhazol.com/store/soaps.jpeg'],
-  ['צבעים לשיער', 'מבחר גוונים ומותגים', 'https://merkazhazol.com/store/hair-colors.jpeg'],
-  ['מטאטאים ומגבים', 'מטאטאים, מגבים ואביזרי ניקיון לבית', 'https://merkazhazol.com/store/brooms-mops.jpeg'],
-  ['לקים', 'הגוון המושלם לכל סגנון', 'https://merkazhazol.com/store/nail-polish.jpeg'],
-  ['מטהרי אוויר', 'רעננות הבית והגנה מפני יתושים', 'https://merkazhazol.com/store/air-fresheners.jpeg'],
-  ['לבנים וגרביים', 'לבנים, גרביים וגרביונים לנשים ולגברים', 'https://merkazhazol.com/store/underwear-hosiery.jpeg'],
-  ['היגיינת הפה', 'שמירה על היגיינת הפה', 'https://merkazhazol.com/store/oral-care.jpeg'],
-  ['נעלי בית וכובעים', 'פריטים נוחים ושימושיים לכל עונה', 'https://merkazhazol.com/store/slippers-hats.jpeg'],
-  ['כפפות, מגבונים ושקיות', 'אביזרים לניקיון ולסדר', 'https://merkazhazol.com/store/gloves-wipes-bags.jpeg'],
-  ['אביזרי רחצה וציפורניים', 'אביזרים להשלמת שגרת הטיפוח', 'https://merkazhazol.com/store/shower-caps-nails.jpeg'],
+const categories = [
+  "בישום", "פרפומריה", "חומרי ניקוי", "קוסמטיקה וטיפוח", "מוצרי צריכה",
+  "היגיינה", "נעלי בית וכובעים", "כפכפים", "חד-פעמי", "איפור",
+  "מוצרי ואביזרי שיער", "גרביים וגרביונים", "לבנים לנשים ולגברים", "משקפי קריאה",
 ];
 
 const openingHours = [
-  ['ראשון', '09:00-19:00'],
-  ['שני', '09:00-19:00'],
-  ['שלישי', '09:00-14:00'],
-  ['רביעי', '09:00-19:00'],
-  ['חמישי', '09:00-19:00'],
-  ['שישי', '09:00-14:00'],
+  ["ראשון", "09:00-19:00"], ["שני", "09:00-19:00"],
+  ["שלישי", "09:00-14:00"], ["רביעי", "09:00-19:00"],
+  ["חמישי", "09:00-19:00"], ["שישי", "09:00-14:00"],
 ];
 
-function App() {
+// Non-breaking hyphens keep the phone number on one line on narrow Android screens.
+const phoneDisplay = "03‑540‑8995";
+const phoneHref = "tel:+97235408995";
+const mapsHref =
+  "https://www.google.com/maps/search/?api=1&query=%D7%A1%D7%95%D7%A7%D7%95%D7%9C%D7%95%D7%91+55+%D7%A8%D7%9E%D7%AA+%D7%94%D7%A9%D7%A8%D7%95%D7%9F";
+const mapsEmbedHref =
+  "https://www.google.com/maps?q=%D7%A1%D7%95%D7%A7%D7%95%D7%9C%D7%95%D7%91+55%2C+%D7%A8%D7%9E%D7%AA+%D7%94%D7%A9%D7%A8%D7%95%D7%9F&hl=he&z=16&output=embed";
+
+export default function App() {
+  const localBusinessData = {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    name: "מרכז הזול רמת השרון",
+    description: "מרכז הזול סוקולוב 55 רמת השרון. החנות המובילה לחומרי ניקוי, חיטוי, בישום, תכשירי שיער, קוסמטיקה, כלים חד״פ, היגיינה, גרביים, נעלי בית ועוד.",
+    url: "https://merkazhazol.com",
+    telephone: "+972-3-540-8995",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "סוקולוב 55",
+      addressLocality: "רמת השרון",
+      addressCountry: "IL",
+    },
+    openingHoursSpecification: [
+      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Sunday", "Monday", "Wednesday", "Thursday"], opens: "09:00", closes: "19:00" },
+      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Tuesday", "Friday"], opens: "09:00", closes: "14:00" },
+    ],
+  };
+
+  const featuredProducts = products.slice(0, 6);
+  const moreProducts = products.slice(6);
+
   return (
-    <div className="site" dir="rtl">
-      <div className="announcement">
-        <span>משלוחים חינם לרמת השרון ולהרצליה</span>
-        <a href="tel:035408995">להזמנות: 03-540-8995</a>
+    <main id="top" dir="rtl">
+      <InteractiveEffects />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessData) }} />
+
+      <div className="announcement-bar">
+        <p>משלוחים חינם לרמת השרון ולהרצליה</p>
+        <a href={phoneHref}>
+          <span>להזמנות:</span>
+          <bdi className="announcement-phone" dir="ltr">{phoneDisplay}</bdi>
+        </a>
       </div>
 
-      <header className="header">
-        <a className="brand" href="#top" aria-label="מרכז הזול">
-          <strong>מרכז הזול</strong>
-          <span>סוקולוב 55, רמת השרון · משנת 1973</span>
-        </a>
-
-        <nav className="nav" aria-label="ניווט ראשי">
-          <a href="#about">הסיפור שלנו</a>
-          <a href="#products">מוצרים</a>
-          <a href="#hours">שעות פתיחה</a>
-          <a href="#contact">צור קשר</a>
-        </nav>
-
-        <a className="header-cta" href="tel:035408995">צור קשר</a>
+      <header className="site-header">
+        <div className="nav-shell">
+          <a className="brand" href="#home" aria-label="מרכז הזול - דף הבית">
+            <span className="brand-name">מרכז הזול</span>
+            <span className="brand-detail">סוקולוב 55, רמת השרון · משנת 1973</span>
+          </a>
+          <nav className="desktop-nav" aria-label="ניווט ראשי">
+            <a href="#story">הסיפור שלנו</a>
+            <a href="#products">מוצרים</a>
+            <a href="#opening-hours">שעות פתיחה</a>
+          </nav>
+          <a className="header-action contact-desktop" href="#visit">צור קשר</a>
+          <a className="header-action contact-mobile" href={phoneHref}>צור קשר</a>
+        </div>
       </header>
 
-      <main id="top">
-        <section className="hero">
-          <div className="hero-copy">
-            <div className="eyebrow">מרכז הזול</div>
-            <h1>כל מה שצריך<br />במקום אחד</h1>
-            <p>
-              מרכז הזול היא חנות משפחתית הפועלת בלב רמת השרון משנת 1973.
-              אצלנו תמצאו מגוון רחב של חומרי ניקוי, קוסמטיקה, בישום ומוצרי
-              צריכה, לצד שירות אישי ומחירים מצוינים.
-            </p>
-
-            <div className="hero-actions">
-              <a className="button primary" href="#products">המוצרים שלנו</a>
-              <a className="button secondary" href="#hours">שעות פתיחה</a>
-              <a className="text-link" href="https://www.google.com/maps/search/?api=1&query=סוקולוב+55+רמת+השרון" target="_blank" rel="noreferrer">
-                ניווט לחנות ←
-              </a>
-            </div>
-
-            <div className="hero-stats">
-              <div>
-                <strong>משנת 1973</strong>
-                <span>עסק משפחתי ותיק</span>
-              </div>
-              <div>
-                <strong>הכול במקום אחד</strong>
-                <span>מגוון מוצרים לבית ולטיפוח</span>
-              </div>
-              <div>
-                <strong>משלוח חינם</strong>
-                <span>לרמת השרון והרצליה</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="hero-image-wrap">
-            <img
-              className="hero-image"
-              src="https://merkazhazol.com/store/storefront.jpg"
-              alt="האחים ממשפחת חכם בכניסה לחנות מרכז הזול"
-            />
-            <div className="image-badge">
-              <span>עסק משפחתי</span>
-              <strong>משנת 1973</strong>
-            </div>
-          </div>
-        </section>
-
-        <section className="story section" id="about">
-          <div className="section-heading">
-            <span className="eyebrow">עסק משפחתי משנת 1973</span>
-            <h2>הסיפור של <em>מרכז הזול</em></h2>
-          </div>
-
-          <blockquote>
-            העסק הוקם בשנת 1973 על ידי אבינו, מאיר חכם ז״ל. כיום אנחנו גאים
-            להמשיך את דרכו ולשמור על הערכים שליוו את החנות לאורך השנים -
-            אדיבות, מקצועיות, יחס אישי ומחירים מצוינים.
-          </blockquote>
-
-          <div className="service-grid">
-            <article>
-              <div className="service-icon">♡</div>
-              <h3>שירות אישי</h3>
-              <p>שירות אדיב ומקצועי, עם נכונות לעזור בכל שאלה</p>
-            </article>
-            <article>
-              <div className="service-icon">✓</div>
-              <h3>מבחר רחב במחירים מצוינים</h3>
-              <p>כל המוצרים שאתם צריכים, במקום אחד ובמחירים משתלמים</p>
-            </article>
-          </div>
-        </section>
-
-        <section className="products section" id="products">
-          <div className="section-heading centered">
-            <span className="eyebrow">המוצרים שלנו</span>
-            <h2>כל מה שאתם מחפשים<br /><em>במקום אחד</em></h2>
-            <p>
-              אצלנו תמצאו מגוון רחב של מוצרי ניקיון, קוסמטיקה, בישום, שיער
-              והיגיינה, ממותגים מוכרים ואהובים.
-            </p>
-          </div>
-
-          <div className="product-grid">
-            {featuredCategories.map((category) => (
-              <article className="product-card" key={category.name}>
-                <img src={category.image} alt={`${category.name} במרכז הזול`} />
-                <div className="product-card-copy">
-                  <h3>{category.name}</h3>
-                  <p>{category.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="more-products">
-          <div className="section-heading centered">
-            <span className="eyebrow">וזה רק חלק מהמבחר</span>
-            <h2>מחכה לכם עוד הרבה<br /><em>בחנות</em></h2>
-            <p>החליקו ימינה ושמאלה כדי לצפות במוצרים נוספים</p>
-          </div>
-
-          <div className="carousel" aria-label="קטגוריות מוצרים נוספות">
-            {moreCategories.map(([name, description, image]) => (
-              <article className="carousel-card" key={name}>
-                <img src={image} alt={`${name} במרכז הזול`} />
-                <div>
-                  <h3>{name}</h3>
-                  <p>{description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <p className="category-line">
-            בישום · פרפומריה · חומרי ניקוי · קוסמטיקה וטיפוח · מוצרי צריכה ·
-            היגיינה · נעלי בית וכובעים · כפכפים · חד-פעמי · איפור · מוצרי
-            ואביזרי שיער · גרביים וגרביונים · לבנים לנשים ולגברים · משקפי
-            קריאה ועוד
+      <section className="hero" id="home" aria-labelledby="hero-title">
+        <div className="hero-content">
+          <h1 id="hero-title">מרכז הזול</h1>
+          <p className="hero-tagline">כל מה שצריך במקום אחד</p>
+          <p className="hero-description">
+            מרכז הזול היא חנות משפחתית הפועלת בלב רמת השרון משנת 1973. אצלנו תמצאו מגוון רחב של חומרי ניקוי, קוסמטיקה, בישום ומוצרי צריכה, לצד שירות אישי ומחירים מצוינים.
           </p>
-        </section>
-
-        <section className="visit section" id="hours">
-          <div className="visit-copy">
-            <span className="eyebrow">מחכים לכם בחנות</span>
-            <h2>סוקולוב 55<br /><em>רמת השרון</em></h2>
-            <p className="delivery-note">משלוחים חינם לרמת השרון ולהרצליה</p>
-            <div className="visit-actions">
-              <a className="button primary" href="https://www.google.com/maps/search/?api=1&query=סוקולוב+55+רמת+השרון" target="_blank" rel="noreferrer">
-                ניווט לחנות
-              </a>
-              <a className="phone" href="tel:035408995">03-540-8995</a>
-            </div>
+          <div className="hero-actions">
+            <a className="primary-button" href="#products">המוצרים שלנו</a>
+            <a className="secondary-button" href="#opening-hours">שעות פתיחה</a>
+            <a className="quiet-link contact-desktop" href="#visit">צור קשר</a>
+            <a className="quiet-link contact-mobile" href={phoneHref}>צור קשר</a>
+            <a className="quiet-link" href={mapsHref} target="_blank" rel="noreferrer">ניווט לחנות</a>
           </div>
-
-          <div className="hours-card">
-            <div>
-              <span className="eyebrow">שעות פתיחה</span>
-              <p>סוקולוב 55, רמת השרון</p>
-            </div>
-
-            <div className="hours-list">
-              {openingHours.map(([day, hours]) => (
-                <div className="hours-row" key={day}>
-                  <strong>{day}</strong>
-                  <span>{hours}</span>
-                </div>
-              ))}
-            </div>
+          <div className="hero-proof" aria-label="יתרונות החנות">
+            <div><strong>משנת 1973</strong><span>עסק משפחתי ותיק</span></div>
+            <div><strong>הכול במקום אחד</strong><span>מגוון מוצרים לבית ולטיפוח</span></div>
+            <div><strong>משלוח חינם</strong><span>לרמת השרון והרצליה</span></div>
           </div>
-        </section>
-
-        <section className="contact section" id="contact">
-          <div>
-            <span className="eyebrow">אנחנו כאן בשבילכם</span>
-            <h2>03-540-8995</h2>
-          </div>
-          <div>
-            <span className="eyebrow">כתובת</span>
-            <h2>סוקולוב 55, רמת השרון</h2>
-          </div>
-          <a className="button secondary light" href="https://www.google.com/maps/search/?api=1&query=סוקולוב+55+רמת+השרון" target="_blank" rel="noreferrer">
-            ניווט לחנות
-          </a>
-        </section>
-
-        <section className="closing">
-          <span>סוקולוב 55, רמת השרון</span>
-          <h2>מחכים לכם במרכז הזול</h2>
-          <a className="button primary" href="tel:035408995">צור קשר</a>
-        </section>
-      </main>
-
-      <footer className="footer">
-        <div className="brand footer-brand">
-          <strong>מרכז הזול</strong>
-          <span>שירות ואדיבות משנת 1973</span>
         </div>
-        <nav>
-          <a href="#about">הסיפור שלנו</a>
-          <a href="#products">מוצרים</a>
-          <a href="#hours">שעות פתיחה</a>
-        </nav>
-        <div className="footer-contact">
-          <a href="https://www.google.com/maps/search/?api=1&query=סוקולוב+55+רמת+השרון" target="_blank" rel="noreferrer">סוקולוב 55, רמת השרון</a>
-          <a href="tel:035408995">03-540-8995</a>
+      </section>
+
+      <section className="family-canvas" aria-label="האחים ממשפחת חכם בכניסה לחנות מרכז הזול" data-reveal>
+        <img src="/store/storefront.jpg" alt="האחים ממשפחת חכם בכניסה לחנות מרכז הזול" fetchPriority="high" />
+        <span className="family-canvas-wash" aria-hidden="true" />
+      </section>
+
+      <section className="story-section" id="story" aria-labelledby="story-title">
+        <div className="story-intro" data-reveal>
+          <p className="kicker">עסק משפחתי משנת 1973</p>
+          <h2 id="story-title">הסיפור של<br />מרכז הזול</h2>
         </div>
+        <div className="story-panel" data-reveal>
+          <blockquote>העסק הוקם בשנת 1973 על ידי אבינו, מאיר חכם ז״ל. כיום אנחנו גאים להמשיך את דרכו ולשמור על הערכים שליוו את החנות לאורך השנים - אדיבות, מקצועיות, יחס אישי ומחירים מצוינים.</blockquote>
+        </div>
+      </section>
+
+      <section className="service-section" aria-labelledby="service-title">
+        <h2 id="service-title" data-reveal>השירות שלנו</h2>
+        <div className="service-strip">
+          <div data-reveal><strong>שירות אישי</strong><p>שירות אדיב ומקצועי, עם נכונות לעזור בכל שאלה</p></div>
+          <div data-reveal><strong>מבחר רחב במחירים מצוינים</strong><p>כל המוצרים שאתם צריכים, במקום אחד ובמחירים משתלמים</p></div>
+        </div>
+      </section>
+
+      <section className="featured-section" id="products" aria-labelledby="products-title">
+        <div className="section-heading" data-reveal>
+          <p className="kicker">המוצרים שלנו</p>
+          <h2 id="products-title">כל מה שאתם מחפשים<br /><em>במקום אחד</em></h2>
+          <p className="section-description">אצלנו תמצאו מגוון רחב של מוצרי ניקיון, קוסמטיקה, בישום, שיער והיגיינה, ממותגים מוכרים ואהובים.</p>
+        </div>
+
+        <div className="featured-grid">
+          {featuredProducts.map((product) => (
+            <article className="featured-card" key={product.title} data-reveal>
+              <div className="featured-image"><img src={product.image} alt={`${product.title} במרכז הזול`} loading="lazy" /></div>
+              <div className="featured-copy"><h3>{product.title}</h3><p>{product.note}</p></div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="collection-section" aria-labelledby="collection-title">
+        <div className="collection-heading" data-reveal>
+          <div><p className="kicker light">וזה רק חלק מהמבחר</p><h2 id="collection-title">מחכה לכם עוד הרבה<br />בחנות</h2></div>
+          <div className="collection-guide">
+            <p>החליקו שמאלה וימינה כדי לצפות בכל המוצרים</p>
+            <div className="collection-controls" aria-label="גלילה בין המוצרים">
+              <button type="button" data-collection-direction="right" aria-label="גלילה ימינה">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l7 7-7 7" /></svg>
+                <span>ימינה</span>
+              </button>
+              <button type="button" data-collection-direction="left" aria-label="גלילה שמאלה">
+                <span>שמאלה</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5l-7 7 7 7" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="collection-scroll" data-collection-scroll>
+          {moreProducts.map((product) => (
+            <article className="collection-card" key={product.title}>
+              <img src={product.image} alt={`${product.title} במרכז הזול`} loading="lazy" />
+              <div><h3>{product.title}</h3><p>{product.note}</p></div>
+            </article>
+          ))}
+        </div>
+        <div className="category-list" aria-label="קטגוריות נוספות">
+          {categories.map((category) => <span key={category}>{category}</span>)}
+          <span>ועוד</span>
+        </div>
+      </section>
+
+      <section className="visit-section" id="visit" aria-labelledby="visit-title">
+        <div className="visit-copy" data-reveal>
+          <p className="kicker">מחכים לכם בחנות</p>
+          <h2 id="visit-title">סוקולוב 55<br />רמת השרון</h2>
+          <p>משלוחים חינם לרמת השרון ולהרצליה</p>
+          <div className="visit-actions">
+            <a className="primary-button" href={mapsHref} target="_blank" rel="noreferrer">ניווט לחנות</a>
+            <a className="phone-link" href={phoneHref}>{phoneDisplay}</a>
+          </div>
+          <div className="visit-image"><img src="/store/cleaning-display.jpg" alt="מדפי חומרי הניקוי במרכז הזול" loading="lazy" /></div>
+        </div>
+
+        <div className="hours-card" id="opening-hours" data-reveal>
+          <div className="hours-title"><span>שעות פתיחה</span><small>סוקולוב 55, רמת השרון</small></div>
+          <div className="hours-list">
+            {openingHours.map(([day, hours]) => (
+              <div key={day}><span>{day}</span><i aria-hidden="true" /><strong>{hours}</strong></div>
+            ))}
+          </div>
+          <a className="hours-contact" href={phoneHref}><span>אנחנו כאן בשבילכם</span><strong>{phoneDisplay}</strong></a>
+        </div>
+      </section>
+
+      <section className="map-section" aria-labelledby="map-title">
+        <div className="map-heading" data-reveal>
+          <div>
+            <p className="kicker">כתובת</p>
+            <h2 id="map-title">סוקולוב 55, רמת השרון</h2>
+          </div>
+          <a className="primary-button" href={mapsHref} target="_blank" rel="noreferrer">ניווט לחנות</a>
+        </div>
+        <div className="map-frame" data-reveal>
+          <iframe
+            src={mapsEmbedHref}
+            title="מפת הגעה למרכז הזול, סוקולוב 55 רמת השרון"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+        </div>
+      </section>
+
+      <section className="closing-section" aria-label="יצירת קשר" data-reveal>
+        <p>סוקולוב 55, רמת השרון</p>
+        <h2>מחכים לכם במרכז הזול</h2>
+        <a className="contact-desktop" href="#visit">צור קשר</a>
+        <a className="contact-mobile" href={phoneHref}>צור קשר</a>
+      </section>
+
+      <footer>
+        <a className="brand footer-brand" href="#home"><span className="brand-name">מרכז הזול</span><span className="brand-detail">שירות ואדיבות משנת 1973</span></a>
+        <div className="footer-links"><a href="#story">הסיפור שלנו</a><a href="#products">מוצרים</a><a href="#opening-hours">שעות פתיחה</a></div>
+        <div className="footer-contact"><a href={mapsHref} target="_blank" rel="noreferrer">סוקולוב 55, רמת השרון</a><a href={phoneHref}>{phoneDisplay}</a></div>
       </footer>
-    </div>
+
+      <a className="back-to-top" href="#top" data-back-to-top aria-label="חזרה לראש העמוד">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 19V6M6.5 11.5 12 6l5.5 5.5" />
+        </svg>
+      </a>
+
+      <div className="mobile-actions" aria-label="פעולות מהירות">
+        <a href={phoneHref}>צור קשר</a>
+        <a href="#opening-hours">שעות פתיחה</a>
+      </div>
+    </main>
   );
 }
 
-export default App;
+function InteractiveEffects() {
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const collection = document.querySelector<HTMLElement>("[data-collection-scroll]");
+    const collectionButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-collection-direction]"));
+    const backToTop = document.querySelector<HTMLAnchorElement>("[data-back-to-top]");
+    const scrollCollection = (event: Event) => {
+      if (!collection) return;
+      const button = event.currentTarget as HTMLButtonElement;
+      const direction = button.dataset.collectionDirection === "left" ? -1 : 1;
+      collection.scrollBy({ left: direction * 306, behavior: reducedMotion ? "auto" : "smooth" });
+    };
+    const updateBackToTop = () => {
+      backToTop?.classList.toggle("is-visible", window.scrollY > Math.max(420, window.innerHeight * 0.7));
+    };
+    collectionButtons.forEach((button) => button.addEventListener("click", scrollCollection));
+    updateBackToTop();
+    window.addEventListener("scroll", updateBackToTop, { passive: true });
+
+    if (reducedMotion) {
+      return () => {
+        window.removeEventListener("scroll", updateBackToTop);
+        collectionButtons.forEach((button) => button.removeEventListener("click", scrollCollection));
+      };
+    }
+
+    const body = document.body;
+    body.classList.add("motion-ready", "intro-playing");
+    const introTimer = window.setTimeout(() => body.classList.remove("intro-playing"), 2300);
+    const items = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" },
+    );
+
+    items.forEach((item) => observer.observe(item));
+    return () => {
+      window.clearTimeout(introTimer);
+      body.classList.remove("intro-playing");
+      observer.disconnect();
+      window.removeEventListener("scroll", updateBackToTop);
+      collectionButtons.forEach((button) => button.removeEventListener("click", scrollCollection));
+    };
+  }, []);
+
+  return <div className="brand-intro" aria-hidden="true"><span>מרכז הזול</span></div>;
+}
+
