@@ -653,4 +653,3 @@ footer { padding: 54px clamp(22px, 5vw, 72px) 38px; background: var(--rose); col
   .featured-card, .featured-image img, .primary-button, .secondary-button, .back-to-top { transition: none; }
   [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
-
