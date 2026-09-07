@@ -5,7 +5,8 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';import { CreateProductDto } from './dto/create-product.dto';
+import { Model, Types } from 'mongoose';
+import { CreateProductDto } from './dto/create-product.dto';
 import { ProductsQueryDto } from './dto/products-query.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product, ProductDocument } from './schemas/product.schema';
@@ -224,7 +225,7 @@ export class ProductsService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-      await Promise.all(
+    await Promise.all(
         INITIAL_PRODUCTS.map((product) =>
           this.productModel.updateOne(
             { name: product.name },
