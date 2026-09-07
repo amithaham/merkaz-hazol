@@ -225,16 +225,16 @@ export class ProductsService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await Promise.all(
-        INITIAL_PRODUCTS.map((product) =>
-          this.productModel.updateOne(
-            { name: product.name },
-            { $setOnInsert: product },
-            { upsert: true },
-          ),
-        ),
-      );
-    }
+  await Promise.all(
+    INITIAL_PRODUCTS.map((product) =>
+      this.productModel.updateOne(
+        { name: product.name },
+        { $setOnInsert: product },
+        { upsert: true },
+      ),
+    ),
+  );
+}
 
   async findAll(query: ProductsQueryDto) {
     const filter: Record<string, unknown> = {};
