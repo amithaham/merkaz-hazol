@@ -38,13 +38,14 @@ async function parseResponse<T>(response: Response): Promise<T> {
 
     try {
       const body = await response.json();
+
       if (typeof body?.message === "string") {
         message = body.message;
       } else if (Array.isArray(body?.message)) {
         message = body.message.join(", ");
       }
     } catch {
-      // Keep the generic status message.
+      // Keep the generic status message if the response body is not JSON.
     }
 
     throw new Error(message);
@@ -53,16 +54,21 @@ async function parseResponse<T>(response: Response): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export async function getProducts(): Promise<ApiProduct[]> {
-  const response = await fetch(
-    `${API_BASE_URL}/products?limit=100`,
-  );
-
+async function fetchProducts(query: string): Promise<ApiProduct[]> {
+  const response = await fetch(`${API_BASE_URL}/products${query}`);
   const data = await parseResponse<ProductsResponse>(response);
 
   return data.items.sort(
     (a, b) => a.displayOrder - b.displayOrder,
   );
+}
+
+export async function getStoreProducts(): Promise<ApiProduct[]> {
+  return fetchProducts("?inStock=true&limit=100");
+}
+
+export async function getProducts(): Promise<ApiProduct[]> {
+  return fetchProducts("?limit=100");
 }
 
 export async function loginAdmin(

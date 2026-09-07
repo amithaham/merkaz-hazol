@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import AdminPage from "./AdminPage";
-import { getProducts, type ApiProduct } from "./api";
+import { getStoreProducts, type ApiProduct } from "./api";
 
 
 const products = [
@@ -56,7 +56,7 @@ function StorefrontApp() {
 
     async function loadProducts() {
       try {
-        const result = await getProducts();
+        const result = await getStoreProducts();
         if (!cancelled) {
           setApiProducts(result);
         }
